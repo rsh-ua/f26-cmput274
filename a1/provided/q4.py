@@ -1,21 +1,23 @@
 from cmput274 import *
-# The above line should appear at the start of
-# all of your CMPUT274 programs
 
-def digitReplace(n, target, replace):
-  # Remove the "pass" line and fill in this function.
-  # Don't forget to include your function specification
-  # docstring at the beginning of the function!
-  pass
+def primeHelper(n, i):
+  if i == 1:
+    return True
+  if n%i == 0:
+    return False
+  return primeHelper(n, i-1)
+
+def isPrime(n):
+  from math import ceil, sqrt
+  return primeHelper(n, ceil(sqrt(n)))
 
 
 def main():
-  testExact("basic1", 179095, digitReplace, 172025, 2, 9)
-  testExact("basic2", 772777, digitReplace, 112111, 1, 7)
-  testExact("basic3", 98402521, digitReplace, 98402521, 3, 9)
-  # Write your own test cases here as you see fit.
-  # You should write many test cases to make yourself
-  # confident your solution works before you hand it in!
+  testExact("basic1", True, isPrime, 7)
+  testExact("basic2", False, isPrime, 91)
+  testExact("basic3", False, isPrime, 1000000)
+  testExact("basic3", False, isPrime, 10000000)
+
   runTests()
 
 if __name__ == "__main__":
