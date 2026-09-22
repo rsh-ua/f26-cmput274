@@ -1,5 +1,5 @@
 from cmput274 import *
-
+import sys
 def descendList(n):
   '''
   descendList produces the LList that contains the
@@ -23,3 +23,10 @@ def descendList(n):
   # So the only expression I can write to produce this list
   # is cons(n, (n-1,n-2,...0))
   return cons(n, descendList(n-1))
+
+def main():
+  n = int(sys.argv[1])
+  l = descendList(n)
+
+if __name__ == "__main__":
+  main()
