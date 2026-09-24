@@ -53,6 +53,10 @@ def balancedGlyphsAcc(s, open):
     # here too!
     return balancedGlyphsAcc(s[1:], cons(c0, open))
   if isCloseGlyph(c0):
+    # if I see a closing glyph and my list of opening glyphs is empty...
+    # then I have a mismatched glyph!
+    if isEmpty(open):
+      return False
     lastOpen = first(open)
     matched = matchingGlyphs(lastOpen, c0)
     if matched:
@@ -89,6 +93,8 @@ def main():
   testExact("closingNotOpenGlyph", False, isOpenGlyph, ")")
   testExact("non-importantGlyph", False, isOpenGlyph, "k")
   testExact("isOpenGlyph('t')", False, isOpenGlyph, "t")
+  testExact(")(", False, balancedGlyphs, ")(")
+
   testExact("isBalanced", True, balancedGlyphs, '{[xt(y)]z}[hello]')
   testExact("wrongOrder", False, balancedGlyphs, '{[(]})')
   testExact("closeNoOpen", False, balancedGlyphs, '[Hey there :)]')
