@@ -11,7 +11,6 @@ NOTE: Just because a concept is used within this file does NOT
 '''
 
 
-
 def testExact(name : str, expected : any, fn: callable, *args : any):
   '''
   testExact is a function used to write test cases
@@ -36,7 +35,11 @@ def testExact(name : str, expected : any, fn: callable, *args : any):
     catchOut = io.StringIO()
     originalStdOut = sys.stdout
     sys.stdout = catchOut
-    res = fn(*args)
+    try:
+      res = fn(*args)
+    except:
+      sys.stdout = originalStdOut
+      raise
     sys.stdout = originalStdOut
     if res == expected:
       return f"{name} passed\n" +"-"*20
@@ -73,7 +76,11 @@ def testWithin(name : str, expected : float, err : float, fn : callable, *args :
     catchOut = io.StringIO()
     originalStdOut = sys.stdout
     sys.stdout = catchOut
-    res = fn(*args)
+    try:
+      res = fn(*args)
+    except:
+      sys.stdout = originalStdOut
+      raise
     sys.stdout = originalStdOut
     if res < expected+err and res > expected - err:
       return f"{name} passed\n" +"-"*20
@@ -90,7 +97,11 @@ def testPrint(name: str, expected: str, fn: callable, *args :any):
     catchOut = io.StringIO()
     originalStdOut = sys.stdout
     sys.stdout = catchOut
-    fn(*args)
+    try:
+      res = fn(*args)
+    except:
+      sys.stdout = originalStdOut
+      raise
     caught = catchOut.getvalue()
     sys.stdout = originalStdOut
     if caught == expected:
@@ -232,6 +243,114 @@ def LL(*args):
     LL("a", 10, 2, "goodbye") -> cons("a", cons(10, cons(2, cons("goodbye", empty()))))
   '''
   return foldr(args, cons, empty())
+
+def LL(*args):
+  '''
+  LL is a function for easily creating a LList from an arbitrary
+     list of values
+
+  returns - A LList
+  *args   - A comma separated list of values. That means you can
+            call LL with any number of arguments, which should be
+            the values you want in your LList in order.
+
+  Examples:
+    LL(1, 2, 3) -> cons(1, cons(2, cons(3, empty())))
+    LL("a", 10, 2, "goodbye") -> cons("a", cons(10, cons(2, cons("goodbye", empty()))))
+  '''
+  return foldr(args, cons, empty())
+
+
+def foldr(l, fn, base):
+  '''
+  foldr folds the given function over the iterable
+        object, using base as the terminal value
+        Performs a right fold.
+
+  l       - an iterable object, e.g. a LList
+  fn      - A function with two parameters
+            The first of which must match the type of the
+            items in l, and the second of which must
+            match the type of the return value 
+            of fn as well as the type of base
+  base    - A value, type must match the expected
+            type of the second parameter of fn
+  returns - The result of right-folding fn over the list,
+            Type is the return type of fn
+
+  Examples
+    foldr(LL(1,2,3), lambda x, y: x + y, 0) -> 6
+    foldr(LL(1,2,3), lambda x, y: cons(x, y), LL(4,5,6)) -> (1, 2, 3, 4, 5, 6)
+  '''
+  return trampoline(_foldrtco(iter(foldl(l, lambda x, y: cons(x, y), empty())), fn, base))
+
+def foldl(l, fn, acc):
+  '''
+  foldl folds the given function over the iterable
+        object, using base as the terminal value
+        Performs a left fold.
+
+  l       - an iterable object, e.g. a LList
+  fn      - A function with two parameters
+            The first of which must match the type of the
+            items in l, and the second of which must
+            match the type of the return value 
+            of fn as well as the type of base
+  base    - A value, type must match the expected
+            type of the first parameter of fn
+  returns - The result of left-folding fn over the list,
+            Type is the return type of fn
+
+  Examples
+    foldl(LL(1,2,3), lambda x, y: x + y, 0) -> 6
+    foldl(LL(1,2,3), lambda x, y: cons(x, y), LL(4,5,6)) -> (3, 2, 1, 4, 5, 6)
+  '''
+  return trampoline(_foldltco(iter(l), fn, acc))
+
+def map(f, l):
+  '''
+  map maps the given unary function f onto the LList l
+      and returns the result of that mapping.
+
+  f       - (X->Y)
+  l       - LList of X
+  returns - LList of Y
+
+  Examples:
+    map(lambda x: x+2, LL(1, 2, 3)) -> LL(3, 4, 5)
+  '''
+  return foldr(l, lambda x, y: cons(f(x), y), empty())
+
+
+def filter(f, l):
+  '''
+  filter filters the LList l using the given predicate f
+      and returns the result of that filter.
+
+  f       - (X->bool)
+  l       - LList of X
+  returns - LList of X
+
+  Examples:
+    filter(lambda x: x%2==1, LL(1, 2, 3)) -> LL(1, 3)
+  '''
+  return foldr(l, lambda x, y: cons(x, y) if f(x) else y, empty())
+
+def buildList(f, n):
+  '''
+  buildList returns the LList which is the result of mapping
+            function f onto the LList of natural numbers
+            from 0 to n-1
+  
+  n       - A natural number
+  f       - (Nat -> X)
+  returns - LList of X
+
+  Examples:
+    buildList(lambda x: chr(x+65), 5) -> LL('A', 'B', 'C', 'D', 'E')
+    buildList(lambda x: x*2, 3) -> LL(0, 2, 4)
+  '''
+  return _blHelper(f, n)
 
 
 #######################################################
