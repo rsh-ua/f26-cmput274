@@ -42,9 +42,9 @@ def testExact(name : str, expected : any, fn: callable, *args : any):
       raise
     sys.stdout = originalStdOut
     if res == expected:
-      return f"{name} passed\n" +"-"*20
+      return (True, f"{name} passed\n" +"-"*20)
     else:
-      return f"{name} failed expected:\n{repr(expected)}\nreceived:\n{repr(res)}\n" + "-"*20
+      return (False, f"{name} failed expected:\n{repr(expected)}\nreceived:\n{repr(res)}\n" + "-"*20)
   _register((name, exactTest))
 
 def testWithin(name : str, expected : float, err : float, fn : callable, *args : any):
@@ -83,9 +83,9 @@ def testWithin(name : str, expected : float, err : float, fn : callable, *args :
       raise
     sys.stdout = originalStdOut
     if res < expected+err and res > expected - err:
-      return f"{name} passed\n" +"-"*20
+      return (True, f"{name} passed\n" +"-"*20)
     else:
-      return f"{name} failed expected:\n{repr(expected)}±{err}\nreceived:\n{repr(res)}\n" + "-"*20
+      return (False, f"{name} failed expected:\n{repr(expected)}±{err}\nreceived:\n{repr(res)}\n" + "-"*20)
   _register((name,withinTest))
 
 
@@ -105,9 +105,9 @@ def testPrint(name: str, expected: str, fn: callable, *args :any):
     caught = catchOut.getvalue()
     sys.stdout = originalStdOut
     if caught == expected:
-      return f"{name} passed\n" +"-"*20
+      return (True, f"{name} passed\n" +"-"*20)
     else:
-      return f"{name} failed expected:\n{expected}\nreceived\n{caught}\n" +"-"*20
+      return (False, f"{name} failed expected:\n{expected}\nreceived\n{caught}\n" +"-"*20)
   _register((name,pTest))
 
 
@@ -438,12 +438,18 @@ def _register(fn, run=False):
       print("-"*20)
     else:
       print("No tests to run!")
+      return
+    total = len(_register.reg)
+    count = 0
     for f in _register.reg:
       try:
-        print(f[1]())
+        res, out = f[1]()
+        print(out)
+        count = count + (1 if res else 0)
       except Exception as e:
         print(f"Test {f[0]} caused an error and was unable to be executed")
         print(f"Error: {e}")
+    print(f"Passed {count}/{total} test cases.")
     _register.reg = tuple()
 
 def a1Code():
