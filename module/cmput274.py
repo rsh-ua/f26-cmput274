@@ -341,7 +341,7 @@ def buildList(f, n):
   buildList returns the LList which is the result of mapping
             function f onto the LList of natural numbers
             from 0 to n-1
-  
+
   n       - A natural number
   f       - (Nat -> X)
   returns - LList of X
