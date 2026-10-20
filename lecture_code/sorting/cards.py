@@ -27,6 +27,4 @@ def compareRank(c1, c2):
   return rc1 < rc2
 
 def compareCard(c1, c2):
-  if compareSuit(c1, c2) or compareSuit(c2, c1):
-    return compareSuit(c1, c2)
-  return compareRank(c1, c2)
+  return compareSuit(c1,c2) or (not compareSuit(c2,c1) and compareRank(c1,c2))
