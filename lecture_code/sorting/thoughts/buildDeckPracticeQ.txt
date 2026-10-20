@@ -1,0 +1,12 @@
+Practice Question:
+Write a function "newDeck()"
+that has no parameters (it is a constant
+function) and it always returns
+the LList of all cards in french-suited
+standard 52 card playing deck
+sorted in our suit order.
+
+Your function may not use any explicit recursion
+it must be achieved using only higher
+order functions
+such as foldr, foldl, filter, map, and buildList
