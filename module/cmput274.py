@@ -328,7 +328,7 @@ def filter(f, l):
       and returns the result of that filter.
 
   f       - (X->bool)
-  l       - LList of X
+  l       - Sequence of X
   returns - LList of X
 
   Examples:

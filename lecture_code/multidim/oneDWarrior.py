@@ -1,6 +1,6 @@
 from cmput274 import *
 
-def displayWorld(world, pPos):
+def displayWorld(world, pPos, enemies):
   '''
   displayWorld returns a string that represents the display of the
                game of one dimensional warrior described by world
@@ -23,9 +23,14 @@ def displayWorld(world, pPos):
   # to their corresponding characters (we can) and we can map
   # coordinates to their values in our world (we can its indexing)
   # then we can map coordinates to characters!
+  def indToChar(i):
+    if pPos == i:
+      return "Ÿ"
+    if foldr(enemies, lambda e, ans: e == i or ans, False):
+      return "X"
+    return natToChar(world[i])
   natToChar = lambda n: "_" if n == 0 else "|"
   indices = buildList(lambda x:x, len(world))
-  indToChar = lambda i: "Ÿ" if pPos == i else natToChar(world[i])
   return foldr(indices, lambda i, ror: indToChar(i) + ror, "")
 
 
@@ -34,8 +39,8 @@ def main():
   playerPosition = 3 # Positions are discussed in terms of coordinates.
   # Since have a one-dimensional world our coordinate is just 1 Nat,
   # the index into our world data collection
-  testExact("t1", "_|_Ÿ_|___", displayWorld, sampleWorld, playerPosition)
-  testExact("t2", "Ÿ|___|___", displayWorld, sampleWorld, 0)
+  testExact("t1", "X|_Ÿ_|___", displayWorld, sampleWorld, playerPosition, (0,))
+  testExact("t2", "Ÿ|XXX|___", displayWorld, sampleWorld, 0, (4,2,3))
   runTests()
 
 

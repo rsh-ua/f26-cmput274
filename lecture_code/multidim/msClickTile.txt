@@ -1,0 +1,36 @@
+Challenge Question:
+(Note, a CHALLENGE question involves topics
+ beyond the scope of material covered so
+ far in this class. Thus, while it does test
+ some material we have learned it does 
+ require extra knowledge)
+Given MSGrid is a tuple of tuples of MSChar
+
+MSChar is one of:
+ - 0-8 if revealed, and the number
+   represents the number of adjacent bombs
+ - "X" if not revealed
+ - "B" if a bomb is revealed there
+
+All MSGrids start as an nxm grid of "X"
+
+Your game consists of two pieces of state:
+the MSGrid and
+BombList
+BombList is a Tuple of Coords of bombs (x,y)
+BombList ((b1x,b1y), (b2x,b2y),...)
+
+Write the function clickTile
+clickTile takes three parameters
+ - The current MSGrid
+ - The BombList
+ - A coordinate of the clicked tile
+clickTile should return the NEW MSGrid where 
+the clicked tile is replaced with "B" if its a bomb
+ or is replaced with the number of adjacent bombs if its
+ not a bomb
+ ALSO: if the clicked tile has 0 adjacent bombs then
+       trivially the client would click all of those adjacent
+       squares so you must also do that for them automatically
+
+
