@@ -1,7 +1,9 @@
 from cmput274 import *
 
-def concat(l1, l2):
-  return foldr(l1, cons, l2)
+def concat(l1, l2, l3):
+  return foldr(l1, cons, foldr(l2, cons, l3))
+
+
 
 def flatten1(bt):
   '''
@@ -12,10 +14,8 @@ def flatten1(bt):
   '''
   if bt == ():
     return empty()
-  val = LL(bt[0])
-  lTree = bt[1]
-  rTree = bt[2]
-  return concat(val, concat(flatten1(lTree), flatten1(rTree)))
+  return concat(LL(bt[0]), flatten(bt[1]), flatten(bt[2]))
+
 
 def flatten2(bt):
   '''
@@ -26,10 +26,8 @@ def flatten2(bt):
   '''
   if bt == ():
     return empty()
-  val = LL(bt[0])
-  lTree = bt[1]
-  rTree = bt[2]
-  return concat(flatten2(lTree), concat(val, flatten2(rTree)))
+  return concat(flatten2(bt[1]), LL(bt[0]), flatten2(bt[2]))
+
 
 def flatten3(bt):
   '''
