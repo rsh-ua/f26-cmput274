@@ -353,6 +353,14 @@ def buildList(f, n):
   return _blHelper(f, n)
 
 
+'''
+Additional helpful data accessors for LLists
+'''
+second = lambda l: first(rest(l))
+third = lambda l: first(rest(rest(l)))
+fourth = lambda l: first(rest(rest(rest(l))))
+fifth = lambda l: first(rest(rest(rest(rest(l)))))
+
 #######################################################
 '''
 Everything below here is implementation details,
