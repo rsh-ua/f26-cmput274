@@ -1,0 +1,11 @@
+Write three functions for doing TreeDeltas of a BinaryTree of Ints
+ A TreeDelta of a BinaryTree of ints is defined as
+	The Delta between the TreeDeltas of the subtrees
+	    and the current node's value
+
+PreOrderTreeDelta:
+	CurNode - PreOrderTreeDelta(ltree) - PreOrderTreeDelta(rTree)
+InOrderTreeDelta:
+	InOrderTreeDelta(lTree) - CurNode - InOrderTreeDelta(rTree)
+PostOrderTreeDelta:
+	PostOrderTreeDelta(lTree) - PostOrderTreeDelta(rTree) - CurNode
