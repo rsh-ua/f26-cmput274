@@ -103,7 +103,7 @@ def lookup(key, pairs):
   pass
 
 
-def evalExpr(eTree, defns):
+def evalExpr(eTree, defns, mem):
   '''
   evalExpr returns the result of evaluating the given ExprTree eTree given
            the provided identifier definitions in the LList of pairs defns
