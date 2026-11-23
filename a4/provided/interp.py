@@ -110,6 +110,7 @@ def evalExpr(eTree, defns, mem):
 
   eTree   - an ExprTree
   defns   - a LList of LL(str, int)
+  mem     - a LList of LL(int, int)
   returns - int
 
   Examples:
