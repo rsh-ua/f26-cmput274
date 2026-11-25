@@ -17,6 +17,8 @@ def nextFreeMemoryLocation(mem):
   mem     - LList of LL(int, int), the current memory mapping of a fimpl program
   returns - int
 
+  Side Effects: None
+
   Examples:
     nextFreeMemoryLocation(empty()) -> 0
     nextFreeMemoryLocation(LL(LL(0, 5), LL(1, -23))) -> 2
@@ -95,6 +97,8 @@ def runStmt(stmt, defns, mem, output):
   output  - str
   returns - 3-tuple of (LList of LL(str, int), LList of LL(int, int), str)
 
+  Side Effects: None
+
   Examples:
     stmt0 = first(tokensToSTreeList(strToTokenList("x <- 3")))
     runStmt(stmt1, empty(), empty(), "") -> (LL(LL("x", 0)), LL(LL(0, 3)), "")
@@ -111,6 +115,8 @@ def interp(text):
 
   text    - str, a valid fimpl program
   returns - 3-tuple of (LList of LL(str, int), LList of LL(int, int), str)
+
+  Side Effects: None
 
   Examples:
     interp("x <- 1\nRpt 5 {\nDisp x\nx <- mul x 2\n}") -> (LL(LL("x", 5)), LL(LL(0, 1), LL(1, 2), LL(2, 4), LL(3, 8), LL(4, 16), LL(5, 32)), "1\n2\n4\n8\n16\n")
