@@ -8,6 +8,24 @@ A StmtTree is one of:
 - LL("mutate", ExprTree, ExprTree)
 '''
 
+def nextFreeMemoryLocation(mem):
+  '''
+  nextFreeMemoryLocation returns the next free memory location in a running fimpl program. The policy is simply to return 0
+                         if the memory mapping is currently empty, otherwise return the next natural number that is the first unused
+                         memory location (increment the largest one already in use).
+
+  mem     - LList of LL(int, int), the current memory mapping of a fimpl program
+  returns - int
+
+  Examples:
+    nextFreeMemoryLocation(empty()) -> 0
+    nextFreeMemoryLocation(LL(LL(0, 5), LL(1, -23))) -> 2
+  '''
+  memLocs = map(lambda x: first(x), mem)
+  largest = foldr(memLocs, lambda val, ror: val if val > ror else ror, -1)
+  return largest+1
+
+
 def replaceOrAdd(defns, key, val):
   pass
 
