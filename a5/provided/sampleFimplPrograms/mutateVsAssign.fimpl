@@ -1,0 +1,14 @@
+x <- 10
+y <- x
+Disp x
+Disp y
+x <- 15
+Disp x
+Disp y
+a <- 10
+b <- a
+Disp a
+Disp b
+Mutate a <- 15
+Disp a
+Disp b
