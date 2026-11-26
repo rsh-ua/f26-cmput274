@@ -3,10 +3,13 @@ from cmput274 import *
 def sub(x, y, z):
   return x - y - z
 
+def identity(x):
+  return x
+
 def preTD(bt):
   if bt == ():
     return 0
-  return sub(bt[0], bt[1], bt[2])
+  return sub(identity(bt[0]), preTD(bt[1]), preTD(bt[2]))
 
 def inTD(bt):
   if bt == ():
@@ -16,5 +19,5 @@ def inTD(bt):
 def postTD(bt):
   if bt == ():
     return 0
-  return postTD(bt[1]) - postTD(bt[2]) - bt[0]
+  return sub(postTD(bt[1]), postTD(bt[2]), bt[0])
 
